@@ -1,5 +1,6 @@
 require "spec_helper"
 require "hopper.rb"
+require "pry"
 
 describe  "Hopper" do 
 

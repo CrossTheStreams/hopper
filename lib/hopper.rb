@@ -15,54 +15,40 @@ class Hopper
   def find_solution
     raise "Problem can't start with zero!" if self.problem_array[0].zero?
     raise "Need a valid problem array" if self.problem_array[0].nil?
-    self.current_idx = 0
+    #self.current_idx = 0
     self.solutions = []
-    recursion = Proc.new { |hopper, recurs| hopper.hop(recurs) }
-    self.hop(recursion)
-  end
+    #recursion = Proc.new { |hopper, recurs, hop_start_index| hopper.hop(recurs,hop_start_index) }
+    self.hop
+    self.purge_invalid_solutions
+    self.random_valid_solution
+ end
 
-  def hop(recursion=nil)
+  def hop(current_hop=[0])
     problem = self.problem_array
-    next_idx = self.current_idx + problem[self.current_idx] rescue nil
+    hop_start_index = current_hop.last
+    next_idx = hop_start_index + problem[hop_start_index] rescue nil
     valid_hops = []
     choice = nil
 
     # Dont land on zero and break when we're done
-    for i in (current_idx+1)..next_idx
+    for i in (hop_start_index+1)..next_idx
       if problem[i].nil?
-        puts "out"
-        choice = "out"
-        self.solutions << "out"
+        self.solutions << current_hop
         break
       elsif problem[i].zero?
         next
       else
-        #valid_hops << i
-        valid_hops << [i,problem[i]]
+        valid_hops << i
       end
     end 
-
-    return self.solutions if choice == "out"
-
-    #choice = valid_hops.max
    
     # We must traverse possible solutions to find solutions with the minimum hops
-
-    
-    valid_hops.each do |arr|
-      self.solutions.each do |solution| 
-        k
-      end
+   
+    valid_hops.each do |idx|
+      next_hop = current_hop.clone << idx
+      self.hop(next_hop)
     end
 
-    #choice = valid_hops.sort {|a,b| b[1] <=> a[1] }.first[0] if !choice 
-    #choice = valid_hops.sort {|a,b| b[0] <=> a[0] }.first[0] if !choice 
-
-
-    self.solutions << choice
-    self.current_idx = choice
-
-    recursion.call(self,recursion) if recursion
   end
 
   def purge_invalid_solutions
@@ -75,6 +61,11 @@ class Hopper
       solution.reduce(:+) || 0
     end
     hops_taken.min || 0
+  end
+
+  def random_valid_solution
+    solution = self.solutions.sample(1).first.clone rescue []
+    solution << "out"
   end
    
 

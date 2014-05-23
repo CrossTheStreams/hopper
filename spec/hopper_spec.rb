@@ -8,6 +8,14 @@ describe  "Hopper" do
     (Hopper rescue nil).class == Class
   end
 
+  it "purges hop traverals that took too many hops" do 
+    h = Hopper.new([])
+    # Give some fake solutions
+    h.solutions = [[0,2,5],[0,1,3],[0,2,4]]
+    h.purge_invalid_solutions 
+    expect(h.random_valid_solution).to eq([0,1,3,"out"])
+  end
+
   it "gives the right answer for sample array ARR1" do 
     #ARR1 = [4,5,0,3,9,4,10]
     hopper  = Hopper.new(ARR1)

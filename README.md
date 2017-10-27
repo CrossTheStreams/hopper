@@ -1,5 +1,7 @@
 Ruby project for an array hopping problem
 
+Usage: `$ ruby lib/hopper.rb lib/sample.csv`
+
 Problem description from [rohitsinha](https://github.com/rohitsinha54/ArrayHopper)
 
 You are given an array of integers with values greater than or equal to 0, for example: 

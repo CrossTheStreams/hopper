@@ -29,6 +29,7 @@ class Hopper
       if @problem_array[i].nil?
         # We've hit the end of our hopping journey.
         # Collect the hops we've taken.
+        print "."
         @solutions << current_hop
         break
       elsif @problem_array[i].zero?
@@ -69,6 +70,6 @@ end
 if ARGV[0]
   array = CSV.read(File.expand_path(ARGV[0]))[0].map {|str| str.to_i}
   hopper = Hopper.new(array)
-  puts "A solution for array: #{hopper.find_solution}"
+  puts "\nA solution for array: #{hopper.find_solution}"
 end
 
